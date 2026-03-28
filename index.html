@@ -23,7 +23,8 @@
     .conclusion-text { font-size: 1.0rem; line-height: 1.8; text-align: justify; }
     .fig-caption { font-size: 0.92rem; color: #555; margin-top: 0.75rem; line-height: 1.5; text-align: center; }
     .fig-caption strong { color: #222; }
-    .figure-image { border: 1px solid #ddd; display: block; width: 100%; }
+    .figure-image { border: 1px solid #ddd; display: block; width: 100%; transition: box-shadow 0.2s ease, border-color 0.2s ease; }
+    .figure-image:hover { border-color: #aaa; box-shadow: 0 0 0 3px #d0d0d0; }
     .results-table { font-size: 0.88rem; width: 100%; }
     .results-table th { background: #f5f5f5; font-weight: 700; text-align: center; white-space: nowrap; vertical-align: bottom; padding: 8px 10px; }
     .results-table th.left { text-align: left; }
@@ -89,6 +90,31 @@
     .carousel-dot.active { background: #363636; }
 
     @media (max-width: 768px) { .publication-title { font-size: 1.6rem; } }
+
+    /* Lightbox */
+    .lightbox-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-out;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .lightbox-overlay.visible { opacity: 1; }
+    .lightbox-overlay img {
+      max-width: 92vw;
+      max-height: 92vh;
+      object-fit: contain;
+      border: none;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+      cursor: default;
+      border-radius: 2px;
+    }
+    .figure-image { cursor: zoom-in; }
   </style>
 </head>
 <body>
@@ -353,5 +379,41 @@
   }
 </script>
 
+
+<div class="lightbox-overlay" id="lightbox">
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<script>
+  var overlay = document.getElementById('lightbox');
+  var lbImg = document.getElementById('lightbox-img');
+
+  document.querySelectorAll('.figure-image').forEach(function(img) {
+    img.addEventListener('click', function() {
+      lbImg.src = img.src;
+      lbImg.alt = img.alt;
+      overlay.style.display = 'flex';
+      overlay.getBoundingClientRect();
+      overlay.classList.add('visible');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  overlay.addEventListener('click', function(e) {
+    closeLightbox();
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeLightbox();
+  });
+
+  function closeLightbox() {
+    overlay.classList.remove('visible');
+    setTimeout(function() {
+      overlay.style.display = 'none';
+      document.body.style.overflow = '';
+    }, 300);
+  }
+</script>
 </body>
 </html>
