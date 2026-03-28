@@ -41,8 +41,20 @@
     /* Carousel */
     .carousel-wrapper { position: relative; }
     .carousel-slides { overflow: hidden; }
-    .carousel-slide { display: none; }
-    .carousel-slide.active { display: block; }
+    .carousel-slide {
+      display: block;
+      opacity: 0;
+      pointer-events: none;
+      position: absolute;
+      top: 0; left: 0; width: 100%;
+      transition: opacity 0.4s ease;
+    }
+    .carousel-slides { position: relative; min-height: 200px; }
+    .carousel-slide.active {
+      opacity: 1;
+      pointer-events: auto;
+      position: relative;
+    }
     .carousel-controls {
       display: flex;
       align-items: center;
@@ -311,15 +323,29 @@
 
 <script>
   let current = 0;
+  let animating = false;
   const slides = document.querySelectorAll('.carousel-slide');
   const dots = document.querySelectorAll('.carousel-dot');
 
   function goToSlide(n) {
-    slides[current].classList.remove('active');
+    if (animating || n === current) return;
+    animating = true;
+    const next = (n + slides.length) % slides.length;
+
+    // fade out current
+    slides[current].style.opacity = '0';
     dots[current].classList.remove('active');
-    current = (n + slides.length) % slides.length;
-    slides[current].classList.add('active');
-    dots[current].classList.add('active');
+
+    setTimeout(() => {
+      slides[current].classList.remove('active');
+      current = next;
+      slides[current].classList.add('active');
+      dots[current].classList.add('active');
+      // force reflow then fade in
+      slides[current].getBoundingClientRect();
+      slides[current].style.opacity = '1';
+      animating = false;
+    }, 400);
   }
 
   function moveCarousel(dir) {
