@@ -15,7 +15,6 @@
 
   <p align='center'><sup>*</sup>Equal contribution</p>
 
-  <h3 align="center">Under Review — ECCV 2026</h3>
   <h3 align="center"><a href="#">Paper</a> | <a href="https://merci00001.github.io/entropy-gradient-grounding/">Project Page</a></h3>
   <div align="center"></div>
 </p>
