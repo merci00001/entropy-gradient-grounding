@@ -16,7 +16,7 @@
   <p align='center'><sup>*</sup>Equal contribution</p>
 
   <h3 align="center">Under Review — ECCV 2026</h3>
-  <h3 align="center"><a href="#">Paper</a> | <a href="#">Project Page</a></h3>
+  <h3 align="center"><a href="#">Paper</a> | <a href="https://merci00001.github.io/entropy-gradient-grounding/">Project Page</a></h3>
   <div align="center"></div>
 </p>
 
@@ -35,7 +35,7 @@ Our code is developed based on Python 3.11, PyTorch 2.1.2, and CUDA 12.1.
 We recommend using [conda](https://docs.anaconda.com/miniconda/) for installation:
 
 ```bash
-git clone https://github.com/your-username/your-repo.git
+git clone https://github.com/merci00001/entropy-gradient-grounding.git
 cd your-repo
 
 conda create -n egrounding python=3.11
