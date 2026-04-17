@@ -27,6 +27,7 @@
 - [x] Inference code for LLaVA. <br>
 - [ ] Inference code for Qwen 2.5. <br>
 - [ ] Inference code for InternVL 3.5. <br>
+- [ ] Single image demo. <br>
 
 ## Installation
 
@@ -90,6 +91,7 @@ The `--question-file` follows the standard [LLaVA JSONL format](https://github.c
 | `--answers-file` | Output file for model predictions |
 | `--conv-mode` | `mistral_instruct` for Mistral-based models, `vicuna_v1` otherwise |
 | `--is15` | Set `True` for LLaVA 1.5, `False` for LLaVA 1.6 |
+| `--to_run` | Number of disjoint regions to keep track of |
 
 ### Qwen 2.5 / InternVL 3.5
 
