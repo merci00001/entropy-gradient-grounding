@@ -20,11 +20,6 @@
   <div align="center"></div>
 </p>
 
-<p align="center">
-  <a href="#">
-    <img src="assets/teaser.jpg" alt="Teaser" width="100%">
-  </a>
-</p>
 
 > We propose a **training-free, model-intrinsic grounding method** for vision-language models that uses uncertainty as supervision. Our approach backpropagates **entropy of the next-token distribution** to visual token embeddings, yielding relevance maps without auxiliary detectors or attention-map heuristics — enabling robust grounding on detail-critical and high-resolution settings across seven benchmarks and four VLM architectures.
 
@@ -40,78 +35,15 @@ Our code is developed based on Python 3.11, PyTorch 2.1.2, and CUDA 12.1.
 We recommend using [conda](https://docs.anaconda.com/miniconda/) for installation:
 
 ```bash
+git clone https://github.com/your-username/your-repo.git
+cd your-repo
+
 conda create -n egrounding python=3.11
 conda activate egrounding
 
 pip install torch==2.1.2 torchvision==0.16.2 --index-url https://download.pytorch.org/whl/cu121
 pip install -r requirements.txt
 ```
-
-### LLaVA Setup
-
-Our method requires LLaVA to be installed from source. Clone and install it as an editable package:
-
-```bash
-git clone https://github.com/haotian-liu/LLaVA.git
-cd LLaVA
-pip install -e .
-cd ..
-```
-
-> [!IMPORTANT]
-> **Patch LLaVA's `generate` method**
->
-> Our method passes `inputs_embeds` directly to the model's `generate` function, which the original LLaVA does not support. After installing, you must replace the `generate` method in:
->
-> `LLaVA/llava/model/language_model/llava_llama.py`
->
-> Replace the existing `generate` method with the following:
->
-> ```python
-> @torch.no_grad()
-> def generate(
->     self,
->     inputs: Optional[torch.Tensor] = None,
->     images: Optional[torch.Tensor] = None,
->     image_sizes: Optional[torch.Tensor] = None,
->     **kwargs,
-> ) -> Union[GenerateOutput, torch.LongTensor]:
->     position_ids = kwargs.pop("position_ids", None)
->     attention_mask = kwargs.pop("attention_mask", None)
->     if "inputs_embeds" in kwargs:
->         inputs_embeds = kwargs.pop("inputs_embeds", None)
->         return super().generate(
->             position_ids=None,
->             attention_mask=attention_mask,
->             inputs_embeds=inputs_embeds,
->             **kwargs
->         )
->     if images is not None:
->         (
->             inputs,
->             position_ids,
->             attention_mask,
->             _,
->             inputs_embeds,
->             _
->         ) = self.prepare_inputs_labels_for_multimodal(
->             inputs,
->             position_ids,
->             attention_mask,
->             None,
->             None,
->             images,
->             image_sizes=image_sizes
->         )
->     else:
->         inputs_embeds = self.get_model().embed_tokens(inputs)
->     return super().generate(
->         position_ids=position_ids,
->         attention_mask=attention_mask,
->         inputs_embeds=inputs_embeds,
->         **kwargs
->     )
-> ```
 
 ## Method Overview
 
