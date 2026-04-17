@@ -4,13 +4,14 @@ datasets==4.1.1
 einops==0.6.1
 einops-exts==0.0.4
 numpy==1.26.4
-opencv-python==4.12.0.88
+opencv-python==4.9.0.80
 peft==0.17.1
 pillow==10.4.0
 scikit-image==0.25.2
 scikit-learn==1.7.2
 scipy==1.15.3
 sentencepiece==0.1.99
+shortuuid==1.0.13
 timm==0.6.13
 tokenizers==0.15.1
 transformers==4.37.2
