@@ -15,7 +15,7 @@
 
   <p align='center'><sup>*</sup>Equal contribution</p>
 
-  <h3 align="center"><a href="#">Paper</a> | <a href="https://arxiv.org/abs/2604.08456">Project Page</a></h3>
+  <h3 align="center"><a href="https://arxiv.org/abs/2604.08456">Paper</a> | <a href="https://entropy-gradient-grounding.github.io/">Project Page</a></h3>
   <div align="center"></div>
 </p>
 
