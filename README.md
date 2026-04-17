@@ -90,7 +90,6 @@ The `--question-file` follows the standard [LLaVA JSONL format](https://github.c
 | `--answers-file` | Output file for model predictions |
 | `--conv-mode` | `mistral_instruct` for Mistral-based models, `vicuna_v1` otherwise |
 | `--is15` | Set `True` for LLaVA 1.5, `False` for LLaVA 1.6 |
-| `--do_multi` | Set `True` to subdivide the image into 4 patches before encoding |
 
 ### Qwen 2.5 / InternVL 3.5
 
