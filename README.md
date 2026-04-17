@@ -30,7 +30,7 @@
 
 ## Installation
 
-Our code is developed based on Python 3.11, PyTorch 2.1.2, and CUDA 12.1.
+Our code is developed based on Python 3.10, PyTorch 2.1.2, and CUDA 12.1.
 
 We recommend using [conda](https://docs.anaconda.com/miniconda/) for installation:
 
@@ -38,7 +38,7 @@ We recommend using [conda](https://docs.anaconda.com/miniconda/) for installatio
 git clone https://github.com/merci00001/entropy-gradient-grounding.git
 cd entropy-gradient-grounding
 
-conda create -n egrounding python=3.11
+conda create -n egrounding python=3.10
 conda activate egrounding
 
 pip install torch==2.1.2 torchvision==0.16.2 --index-url https://download.pytorch.org/whl/cu121
