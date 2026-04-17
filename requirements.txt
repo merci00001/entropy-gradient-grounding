@@ -10,6 +10,7 @@ pillow==10.4.0
 scikit-image==0.25.2
 scikit-learn==1.7.2
 scipy==1.15.3
+protobuf==6.32.1
 sentencepiece==0.1.99
 shortuuid==1.0.13
 timm==0.6.13
