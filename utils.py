@@ -40,7 +40,39 @@ def bbox_from_mask(mask) :
     height = y1 - y0 + 1
     return [x0, y0, width, height]
 
+def find_crop_in_global(global_img: Image.Image, crop_img: Image.Image):
+    """
+    Find the pixel bbox of crop_img inside global_img using template matching.
+    Returns (x_min, y_min, x_max, y_max) in global pixel coordinates.
+    """
+    global_np = np.array(global_img.convert("RGB"))
+    crop_np   = np.array(crop_img.convert("RGB"))
 
+    # Convert to grayscale for matching
+    global_gray = cv2.cvtColor(global_np, cv2.COLOR_RGB2GRAY)
+    crop_gray   = cv2.cvtColor(crop_np,   cv2.COLOR_RGB2GRAY)
+
+    # Resize crop to match the scale it would appear at in the global image
+    # (necessary because the crop was upscaled by PIL when cropping)
+    h_g, w_g = global_gray.shape
+    h_c, w_c = crop_gray.shape
+
+    if h_c > h_g or w_c > w_g:
+        # Crop is bigger than global after resampling — scale it down
+        scale = min(h_g / h_c, w_g / w_c)
+        new_w = int(w_c * scale)
+        new_h = int(h_c * scale)
+        crop_gray = cv2.resize(crop_gray, (new_w, new_h), interpolation=cv2.INTER_AREA)
+        h_c, w_c = new_h, new_w
+
+    result = cv2.matchTemplate(global_gray, crop_gray, cv2.TM_CCOEFF_NORMED)
+    _, score, _, top_left = cv2.minMaxLoc(result)
+
+    x_min, y_min = top_left
+    x_max = x_min + w_c
+    y_max = y_min + h_c
+
+    return (x_min, y_min, x_max, y_max), score
 
 
 
