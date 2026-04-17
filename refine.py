@@ -5,7 +5,6 @@ from PIL import Image
 from pathlib import Path
 
 from utils import (
-    get_attn_layers,
     get_disjoint_segments,
     bbox_from_mask,
     get_embedding,
@@ -194,12 +193,7 @@ def refine_big(
         if plot:
             _plot_grad_results(grad_flat, grad_grid, is_multi, vis_len, add, boxes_previous, iteration, index_data)
     else:
-        prob_end = get_prob_max(model, orig_embeds)
-        attn_orig, _ = get_attn_layers(
-            model, input_ids, image_tensor, image_sizes,
-            input_embeds=orig_embeds, num_layer=32,
-            attention_mask=att_mask, position_ids=position_ids,
-        )
+        print("not supported)
 
     # ------------------------------------------------------------------
     # Step 2: find salient segments
