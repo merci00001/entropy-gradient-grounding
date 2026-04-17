@@ -36,7 +36,7 @@ We recommend using [conda](https://docs.anaconda.com/miniconda/) for installatio
 
 ```bash
 git clone https://github.com/merci00001/entropy-gradient-grounding.git
-cd your-repo
+cd entropy-gradient-grounding
 
 conda create -n egrounding python=3.11
 conda activate egrounding
