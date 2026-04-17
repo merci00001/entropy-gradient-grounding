@@ -50,9 +50,7 @@ def eval_single(annotation_file, result_file):
 
     evaluator = TextVQAAccuracyEvaluator()
     print('Samples: {}\nAccuracy: {:.2f}%\n'.format(len(pred_list), 100. * evaluator.eval_pred_list(pred_list)))
-    print('Samples: {}\nAccuracy small: {:.2f}%\n'.format(len(pred_list), 100. * evaluator.eval_pred_list(pred_list, area = "small")))
-    print('Samples: {}\nAccuracy mid: {:.2f}%\n'.format(len(pred_list), 100. * evaluator.eval_pred_list(pred_list, area = "mid")))
-    print('Samples: {}\nAccuracy big: {:.2f}%\n'.format(len(pred_list), 100. * evaluator.eval_pred_list(pred_list, area = "big")))
+
 
 
 if __name__ == "__main__":
