@@ -265,14 +265,10 @@ def run_refinement_loop(
 
 
 
-    print("prob_start:", prob_after)
+
     second_ent = ents_start[0] if args.criterion == "ent" else None
     while True:
         start += 1
-
-        
-        print("second_ent", second_ent)
-
 
 
         orig_embeds2, prob_before, prob_after2, boxes_previous2, boxes, ents, g_max, _ = refine_big(
@@ -287,7 +283,7 @@ def run_refinement_loop(
         )
 
 
-        print("second_ent", ents[0])
+
 
         if args.criterion == "ent":
 
@@ -357,7 +353,7 @@ def eval_model(args):
     if args.load_data:
         
         box_data = load_dataset("jrzhang/TextVQA_GT_bbox")["train"]
-        print(len(box_data))
+
         id_to_index = {ex["dataset_id"]: i for i, ex in enumerate(box_data)}
         ids = box_data["dataset_id"]
         id_to_bbox = {item["dataset_id"]: item["bbox"] for item in box_data}
@@ -378,7 +374,7 @@ def eval_model(args):
             box_dataset_orig_size = -1.0
             if args.load_data:
                 ordered_id = ordered_ids[idx]
-                print(ordered_id)
+
                 if str(ordered_id) in id_to_index:
                     index_data += 1
                     box_dataset_orig = box_data[index_data]["bbox"]
@@ -392,8 +388,6 @@ def eval_model(args):
             if idx < args.index:
                 continue
 
-
-            print(f"[{idx}] {line['image']} — {line['text']}")
 
             input_ids = input_ids.to("cuda", non_blocking=True)
             x_flat = input_ids.flatten()
@@ -431,7 +425,6 @@ def eval_model(args):
 
 
 
-            print("orig_embeds: ", orig_embeds.shape)
             # Refinement loop
             if True:
                 orig_embeds, boxes_previous, start_ent, g_max = run_refinement_loop(
@@ -450,13 +443,13 @@ def eval_model(args):
                 refined_vis = orig_embeds[:, begin_pos_vis:begin_pos_vis + vis_len * len(boxes_previous), :]
                 if args.load_data:
                     bbox_final = find_crop_in_global(boxes_previous[0], boxes_previous[1])
-                    print(bbox_final)
+
                     box_dataset_orig[2] += box_dataset_orig[0]
                     box_dataset_orig[3] += box_dataset_orig[1]
-                    print(box_dataset_orig)
+                
                     iou_with_GT = iou(box_dataset_orig,bbox_final[0])
                     iogt_with_GT = iogt(bbox_final[0], box_dataset_orig)
-                    print("IOU" , iou_with_GT, iogt_with_GT)
+                  
                     IoUs.append(iou_with_GT)
                     if args.plot:
                         boxes_previous[0].crop(bbox_final[0]).save("/cluster/scratch/mgroepl/debug/test/croptest.png")
@@ -543,6 +536,4 @@ if __name__ == "__main__":
     parser.add_argument("--token_number", type=int, default=1)
 
     args = parser.parse_args()
-    print("do_multi:", args.do_multi)
-    print("multi_image:", args.multi_image)
     eval_model(args)
