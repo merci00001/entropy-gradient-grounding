@@ -240,7 +240,7 @@ def get_disjoint_segments(attn_layers, W,H,begin_pos_vis_att, vis_len = 576, ret
 
         grad_orig2 =   gaussian_filter(grad_orig, sigma=sigma)#  gaussian_filter(grad_orig, sigma=1.5)# gaussian_filter(grad_orig, sigma=1.5)  cv2.bilateralFilter(grad_orig, d=9, sigmaColor=75, sigmaSpace=75)
         
-        print("grad_orig2", grad_orig2.min())
+
 
 
 
@@ -251,7 +251,7 @@ def get_disjoint_segments(attn_layers, W,H,begin_pos_vis_att, vis_len = 576, ret
 
         ent = spatial_entropy(torch.tensor(grad_orig2), el)
         ent = ent["spatial_entropy"]
-        print("spatial enthropy ", ent)
+ 
 
 
 
@@ -438,7 +438,7 @@ def calc_grad_image(model, image_tensor, input_ids, image_sizes,
                     image_sizes=image_sizes,
                 )
             )
-            print("input_embeds.requires_grad:", input_embeds.requires_grad)
+ 
 
             # Run the same objective as calc_grad
             if layer == -1:
@@ -461,7 +461,7 @@ def calc_grad_image(model, image_tensor, input_ids, image_sizes,
     finally:
         model.model.vision_tower.requires_grad_(False)
         model.model.mm_projector.requires_grad_(False)
-    print("input_embeds",input_embeds.grad)
+
     assert pix.grad is not None, "Gradient did not reach image tensor"
     grad = pix.grad.to(torch.float32).detach().cpu().numpy().squeeze()
     if grad.ndim == 4:
@@ -530,12 +530,12 @@ def calc_grad(model, input_embeds, attention_mask=None, layer=-1, mode="entropy"
             else:
                 logits = _run_partial_forward(model, input_embeds_final, current_mask, num_layers=layer)
             temp = 1.0 # approx_temperature(logits[0, -1],10)
-            print("temperature", temp)
+
             probs = F.softmax(logits[0, -1] / temp, dim=-1)
 
         # --- Shared objective + backward ---
         probs_nz = probs[probs > 0]
-        print("Non-zero values: ", probs_nz.shape)
+
         topp_indices = _get_topp_indices(probs_nz, p=0.9)
 
         uniform = torch.ones_like(probs) / probs.size(-1)
@@ -560,13 +560,13 @@ def calc_grad(model, input_embeds, attention_mask=None, layer=-1, mode="entropy"
         else:
             raise ValueError(f"Unknown gradient mode: '{mode}'. "
                              f"Choose from: entropy, entropyTopP, max, KL, KLTopP.")
-        print("objective: ", objective)
+
         objective.backward()
         grads = input_embeds.grad.detach().clone()
 
     del objective
     torch.cuda.empty_cache()
-    print(f"Backpropagated at step {actual_steps}, max prob: {probs_nz.max()}")
+
     #grads = grads *-1
     #grads = grads.clamp_(min=0)
     #grads = grads *-1
