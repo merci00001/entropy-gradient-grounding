@@ -27,8 +27,6 @@ def _compute_grad_flat(model, orig_embeds, att_mask, begin_pos_vis, vis_len, add
     neg_sum = g_vis[g_vis < 0].sum()
     pos_sum = g_vis[g_vis > 0].sum()
 
-    print("Sum of negative values:", neg_sum.item())
-    print("Sum of positive values:", pos_sum.item())
 
     norms = torch.norm(g[0, begin_pos_vis:begin_pos_vis + vis_len * add, :], p=2, dim=-1)
     return norms, prob_end, g.max()
