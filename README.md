@@ -110,4 +110,5 @@ Coming soon.
 
 ## Acknowledgement
 
-We thank the authors of [LLaVA](https://github.com/haotian-liu/LLaVA) for their excellent work and code, which served as the foundation for this project.
+We thank the authors of [LLaVA](https://github.com/haotian-liu/LLaVA) and [LocalizationHeads](https://github.com/seilk/LocalizationHeads) for their excellent work and code, which served as the foundation for this project.
+
